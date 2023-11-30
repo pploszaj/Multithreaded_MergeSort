@@ -9,7 +9,7 @@
 using namespace std;
 
 pthread_t threads[NUM_THREADS];
-vector<int> list;
+vector<int> list = {1,2,9,22,7,54,13,9,10,44,59,29,50,20,17,18,0,91,78,69};
 
 
 
@@ -25,10 +25,10 @@ void* mergeSubLists(void* arg){
     long index = (long)arg;
     vector<int> temp(SUBLIST_SIZE * 2);
 
-    auto firstSublistStart = list.begin() + id * SUBLIST_SIZE * 2;
-    auto firstSublistEnd = list.begin() + (id + 1) * SUBLIST_SIZE * 2;
+    auto firstSublistStart = list.begin() + index * SUBLIST_SIZE * 2;
+    auto firstSublistEnd = list.begin() + (index + 1) * SUBLIST_SIZE * 2;
     auto secondSublistStart = firstSublistEnd;
-    auto secondSublistEnd = list.begin() + (id + 2) * SUBLIST_SIZE * 2;
+    auto secondSublistEnd = list.begin() + (index + 2) * SUBLIST_SIZE * 2;
 
     merge(firstSublistStart, firstSublistEnd, secondSublistStart, secondSublistEnd, temp.begin());
     copy(temp.begin(), temp.end(), firstSublistStart);
@@ -37,11 +37,6 @@ void* mergeSubLists(void* arg){
 }
 
 int main (int argc, char *argv[]){
-
-    //push all the command line arguments into a vector and parse them into integers
-    for(int i = 0; i < LIST_SIZE; i++){
-        list.push_back(atoi(argv[i]));
-    }
 
     //create threads to sort sublists
     for(long i = 0; i < 4; i++){
