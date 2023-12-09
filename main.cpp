@@ -71,6 +71,7 @@ void mergeSort(vector<int>& arr, int l, int r) {
 // Function to sort sublist
 void* sortSubList(void* arg) {
     long index = (long)arg;
+    //calculate start and end index
     int start = index * SUBLIST_SIZE;
     int end = (index + 1) * SUBLIST_SIZE - 1;
     mergeSort(list, start, end);
@@ -93,13 +94,11 @@ int main() {
     // Create threads for sorting and call sortSubList on them
     for (long i = 0; i < 4; i++) {
         pthread_create(&threads[i], nullptr, sortSubList, (void*)i);
-        cout << "Created thread\n";
     }
 
     // Wait for threads to complete
     for (int i = 0; i < 4; i++) {
         pthread_join(threads[i], nullptr);
-        cout << "Joined thread\n";
     }
 
     // Create threads to merge the sublists
